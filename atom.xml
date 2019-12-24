@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Personal Blog</title>
+  
+  <subtitle>Pretend it&#39;s a very Niubi sentence</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-12-24T02:59:41.959Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>dkh</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux下tomcat基本用法 使用阿里云centos tomcat部署个人博客</title>
+    <link href="http://yoursite.com/2019/12/24/tomcat/"/>
+    <id>http://yoursite.com/2019/12/24/tomcat/</id>
+    <published>2019-12-24T02:14:48.000Z</published>
+    <updated>2019-12-24T02:59:41.959Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="linux下tomcat基本用法-使用阿里云centos-tomcat部署个人博客"><a href="#linux下tomcat基本用法-使用阿里云centos-tomcat部署个人博客" class="headerlink" title="linux下tomcat基本用法 使用阿里云centos tomcat部署个人博客"></a>linux下tomcat基本用法 使用阿里云centos tomcat部署个人博客</h2><h2 id="tomcat-常用命令"><a href="#tomcat-常用命令" class="headerlink" title="tomcat 常用命令"></a>tomcat 常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 启动</span><br><span class="line">sudo systemctl start tomcat</span><br><span class="line">// 重启</span><br><span class="line">sudo systemctl restart tomcat</span><br><span class="line">// 开机自启</span><br><span class="line">sudo systemctl enable tomcat</span><br></pre></td></tr></table></figure><h2 id="linux-下安装tomcat"><a href="#linux-下安装tomcat" class="headerlink" title="linux 下安装tomcat"></a>linux 下安装tomcat</h2><h3 id="执行安装命令"><a href="#执行安装命令" class="headerlink" title="执行安装命令"></a>执行安装命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum -y install tomcat</span><br></pre></td></tr></table></figure><h3 id="查询tomcat是否安装成功"><a href="#查询tomcat是否安装成功" class="headerlink" title="查询tomcat是否安装成功"></a>查询tomcat是否安装成功</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm -q tomcat</span><br><span class="line">tomcat-7.0.76-9.el7_6.noarch</span><br></pre></td></tr></table></figure><h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a><a href="https://blog.csdn.net/yaodunlin/article/details/87784308" target="_blank" rel="noopener">环境变量</a></h3><h4 id="JDK安装"><a href="#JDK安装" class="headerlink" title="JDK安装"></a>JDK安装</h4><ol><li>查看目前系统的jdk: rpm -qa | grep jdk</li><li>查看yum库中有哪些JDK: yum search java|grep jdk</li><li>选择要安装的版本的包名,进行安装: yum install java-1.7.0-openjdk-1.7.0.75.x86_64 (如果已经安装请忽略此步骤)</li><li>也可选择自己要安装的其它版本或最新版本的JDK.注意修改下面配置中的路径。<h4 id="配置JDK"><a href="#配置JDK" class="headerlink" title="配置JDK"></a>配置JDK</h4>设置环境变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@localhost ~]# vi /etc/profile</span><br></pre></td></tr></table></figure></li></ol><p>添加如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#set java environment    </span><br><span class="line"></span><br><span class="line">    JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.75.x86_64</span><br><span class="line"></span><br><span class="line">    JRE_HOME=$JAVA_HOME/jre</span><br><span class="line"></span><br><span class="line">    CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line"></span><br><span class="line">    PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line"></span><br><span class="line">    export JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br></pre></td></tr></table></figure></p><p>让修改生效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost java]# source /etc/profile</span><br><span class="line">或</span><br><span class="line">[root@localhost ~]# source .bashrc</span><br></pre></td></tr></table></figure></p><h3 id="安装管理包"><a href="#安装管理包" class="headerlink" title="安装管理包"></a>安装管理包</h3><h4 id="如果您刚开始使用Apache-Tomcat，您很可能想要安装一些管理工具，这些工具将帮助您部署Java应用程序和管理虚拟主机。幸运的是，有一些软件包将这些工具作为Web应用程序。"><a href="#如果您刚开始使用Apache-Tomcat，您很可能想要安装一些管理工具，这些工具将帮助您部署Java应用程序和管理虚拟主机。幸运的是，有一些软件包将这些工具作为Web应用程序。" class="headerlink" title="如果您刚开始使用Apache Tomcat，您很可能想要安装一些管理工具，这些工具将帮助您部署Java应用程序和管理虚拟主机。幸运的是，有一些软件包将这些工具作为Web应用程序。"></a>如果您刚开始使用Apache Tomcat，您很可能想要安装一些管理工具，这些工具将帮助您部署Java应用程序和管理虚拟主机。幸运的是，有一些软件包将这些工具作为Web应用程序。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install tomcat-webapps tomcat-admin-webapps</span><br></pre></td></tr></table></figure><h4 id="答y在确认提示。"><a href="#答y在确认提示。" class="headerlink" title="答y在确认提示。"></a>答y在确认提示。</h4><h4 id="这增加了ROOT-，-examples-，-sample-，-manager和host-manager-Web应用到tomcat-webapps的目录。"><a href="#这增加了ROOT-，-examples-，-sample-，-manager和host-manager-Web应用到tomcat-webapps的目录。" class="headerlink" title="这增加了ROOT ， examples ， sample ， manager和host-manager Web应用到tomcat/webapps的目录。"></a>这增加了ROOT ， examples ， sample ， manager和host-manager Web应用到tomcat/webapps的目录。</h4><h3 id="安装在线文档（可选）"><a href="#安装在线文档（可选）" class="headerlink" title="安装在线文档（可选）"></a>安装在线文档（可选）</h3><h4 id="如果要安装Tomcat文档，以便默认Tomcat页面上的所有链接都可以运行，请运行以下命令："><a href="#如果要安装Tomcat文档，以便默认Tomcat页面上的所有链接都可以运行，请运行以下命令：" class="headerlink" title="如果要安装Tomcat文档，以便默认Tomcat页面上的所有链接都可以运行，请运行以下命令："></a>如果要安装Tomcat文档，以便默认Tomcat页面上的所有链接都可以运行，请运行以下命令：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install tomcat-docs-webapp tomcat-javadoc</span><br></pre></td></tr></table></figure><h4 id="答y在提示安装文档软件包"><a href="#答y在提示安装文档软件包" class="headerlink" title="答y在提示安装文档软件包"></a>答y在提示安装文档软件包</h4><p><a href="https://www.cnblogs.com/nicknailo/p/8571004.html" target="_blank" rel="noopener">配置Tomcat Web管理界面</a></p><h3 id="启动Tomcat访问Web界面-将默认访问webapps-ROOT目录下的文件"><a href="#启动Tomcat访问Web界面-将默认访问webapps-ROOT目录下的文件" class="headerlink" title="启动Tomcat访问Web界面 将默认访问webapps/ROOT目录下的文件"></a>启动Tomcat访问Web界面 将默认访问webapps/ROOT目录下的文件</h3><h3 id="更改端口号"><a href="#更改端口号" class="headerlink" title="更改端口号"></a>更改端口号</h3><h4 id="更改为非80端口可进行如下操作"><a href="#更改为非80端口可进行如下操作" class="headerlink" title="更改为非80端口可进行如下操作"></a>更改为非80端口可进行如下操作</h4><p>修改tomcat的端口，在conf目录里的server.xml文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot; connectionTimeout=&quot;20000&quot; redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure></p><p>例如想将端口修改为9090则将port的值修改为9090，其余值不变，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;9090&quot; protocol=&quot;HTTP/1.1&quot; connectionTimeout=&quot;20000&quot; redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure></p><p>如果想将端口修改为80则要注意了，因为linux限制了1-1024端口的使用权限，只有root用户才可以访问1024以下的端口号，所以不能用上面的方法实现，可以使用防火墙映射tomcat监听的端口到80端口，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080</span><br></pre></td></tr></table></figure></p><h2 id="部署hexo个人博客到centos-tomcat"><a href="#部署hexo个人博客到centos-tomcat" class="headerlink" title="部署hexo个人博客到centos tomcat"></a>部署hexo个人博客到centos tomcat</h2><h4 id="将个人博客打包后的文件上传至webapps-ROOT文件夹下"><a href="#将个人博客打包后的文件上传至webapps-ROOT文件夹下" class="headerlink" title="将个人博客打包后的文件上传至webapps/ROOT文件夹下"></a>将个人博客打包后的文件上传至webapps/ROOT文件夹下</h4><h4 id="可使用xshell配合xshell-的文件上传工具xftp6-需单独下载，可在xshell官网下载安装后直接使用"><a href="#可使用xshell配合xshell-的文件上传工具xftp6-需单独下载，可在xshell官网下载安装后直接使用" class="headerlink" title="可使用xshell配合xshell 的文件上传工具xftp6(需单独下载，可在xshell官网下载安装后直接使用)"></a>可使用xshell配合xshell 的文件上传工具xftp6(需单独下载，可在xshell官网下载安装后直接使用)</h4><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><h4 id="Tomcat-访问路径中文或访问文件中文-404"><a href="#Tomcat-访问路径中文或访问文件中文-404" class="headerlink" title="Tomcat 访问路径中文或访问文件中文 404"></a>Tomcat 访问路径中文或访问文件中文 404</h4><h4 id="打开Tomcat下conf文件夹里的server-xml文件修改"><a href="#打开Tomcat下conf文件夹里的server-xml文件修改" class="headerlink" title="打开Tomcat下conf文件夹里的server.xml文件修改"></a>打开Tomcat下conf文件夹里的server.xml文件修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">connectionTimeout=&quot;20000&quot;</span><br><span class="line">redirectPort=&quot;8443&quot; /&gt;</span><br><span class="line">添加进URIEncoding=&quot;UTF-8&quot;</span><br><span class="line">最后如下：</span><br><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">connectionTimeout=&quot;20000&quot;</span><br><span class="line">URIEncoding=&quot;UTF-8&quot;</span><br><span class="line">redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure><h4 id="注意是URI不是URL"><a href="#注意是URI不是URL" class="headerlink" title="注意是URI不是URL"></a>注意是URI不是URL</h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;linux下tomcat基本用法-使用阿里云centos-tomcat部署个人博客&quot;&gt;&lt;a href=&quot;#linux下tomcat基本用法-使用阿里云centos-tomcat部署个人博客&quot; class=&quot;headerlink&quot; title=&quot;linux下tomc
+      
+    
+    </summary>
+    
+    
+      <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基于Hexo+Github搭建个人博客的全过程</title>
+    <link href="http://yoursite.com/2019/06/01/hello-world/"/>
+    <id>http://yoursite.com/2019/06/01/hello-world/</id>
+    <published>2019-06-01T02:05:38.000Z</published>
+    <updated>2019-12-24T02:12:20.625Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;快速开始&quot;&gt;&lt;a href=&quot;#快速开始&quot; class=&quot;headerlink&quot; title=&quot;快速开始&quot;&gt;&lt;/a&gt;快速开始&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;he
+      
+    
+    </summary>
+    
+      <category term="搭建博客" scheme="http://yoursite.com/categories/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="github" scheme="http://yoursite.com/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小程序实战</title>
+    <link href="http://yoursite.com/2019/03/01/applet/"/>
+    <id>http://yoursite.com/2019/03/01/applet/</id>
+    <published>2019-03-01T02:05:38.000Z</published>
+    <updated>2019-12-24T02:11:57.434Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;快速开始&quot;&gt;&lt;a href=&quot;#快速开始&quot; class=&quot;headerlink&quot; title=&quot;快速开始&quot;&gt;&lt;/a&gt;快速开始&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;he
+      
+    
+    </summary>
+    
+      <category term="开发" scheme="http://yoursite.com/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="wx" scheme="http://yoursite.com/tags/wx/"/>
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="github" scheme="http://yoursite.com/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用nginx解决前后端分离跨域</title>
+    <link href="http://yoursite.com/2019/02/01/nginx/"/>
+    <id>http://yoursite.com/2019/02/01/nginx/</id>
+    <published>2019-02-01T02:05:38.000Z</published>
+    <updated>2019-12-23T09:39:07.927Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="nginx-使用为了解决跨域问题"><a href="#nginx-使用为了解决跨域问题" class="headerlink" title="nginx 使用为了解决跨域问题"></a>nginx 使用为了解决跨域问题</h2><p>windows开发环境可本地运行nginx服务监听对应svn路径下的html页面<br>即可将对应路径为 ‘/apis’ 的ajax请求转发到 nginx.config 里 proxy_pass 对应的域名端口<br>以此避免跨域</p><h3 id="nginx-for-windows"><a href="#nginx-for-windows" class="headerlink" title="nginx for windows"></a>nginx for windows</h3><h4 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">start nginx <span class="comment">// 启动nginx</span></span><br><span class="line">nginx -s quit <span class="comment">// 完整有序的停止nginx</span></span><br><span class="line">nginx -s stop <span class="comment">// 关闭nginx ：快速停止nginx</span></span><br><span class="line">nginx -s reload <span class="comment">// 修改配置后重新加载生效</span></span><br></pre></td></tr></table></figure><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sendfile        off; <span class="comment">// 设置不缓存js</span></span><br><span class="line">server &#123;</span><br><span class="line">        listen       <span class="number">3000</span>;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   F:<span class="comment">//项目文件//SVN_//抽奖//gzwh_Lottery_Front//trunk//lottery-page;</span></span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">        location /apis &#123;</span><br><span class="line">      rewrite  ^<span class="regexp">/apis/</span>(.*)$ /$<span class="number">1</span> <span class="keyword">break</span>;</span><br><span class="line">      proxy_pass   http:<span class="comment">//localhost:8086;</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="nginx-for-linux"><a href="#nginx-for-linux" class="headerlink" title="nginx for linux"></a>nginx for linux</h3><h4 id="安装及启动"><a href="#安装及启动" class="headerlink" title="安装及启动"></a>安装及启动</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum -y install nginx <span class="comment">// 安装nginx</span></span><br><span class="line">rpm -ql nginx <span class="comment">// 查看安装路径</span></span><br><span class="line">service nginx start <span class="comment">// 启动</span></span><br><span class="line">service nginx stop <span class="comment">// 停止</span></span><br><span class="line">service nginx restart <span class="comment">// 重启</span></span><br></pre></td></tr></table></figure><h4 id="项目相关记录"><a href="#项目相关记录" class="headerlink" title="项目相关记录"></a>项目相关记录</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">workespace4 工作区</span><br><span class="line">centos nginx.config 目录 /etc/nginx</span><br><span class="line"><span class="comment">// 使用svn</span></span><br><span class="line">yum install -y subversion</span><br><span class="line">svn checkout  http:<span class="comment">//svn.com/path</span></span><br><span class="line">svn update</span><br><span class="line">path: <span class="regexp">/root/</span>project/gzwh_Lottery_Front/trunk/lottery-page</span><br></pre></td></tr></table></figure><p>配置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">user root; <span class="comment">// 解决403问题</span></span><br><span class="line">sendfile off; <span class="comment">// 关闭js自动缓存</span></span><br><span class="line">server &#123;</span><br><span class="line">  listen <span class="number">3000</span> default_server;</span><br><span class="line">  server_name localhost;</span><br><span class="line">  location / &#123;</span><br><span class="line">    root /root/project/gzwh_Lottery_Front/trunk/lottery-page;</span><br><span class="line">  &#125;</span><br><span class="line">  location /apis &#123;</span><br><span class="line">    rewrite ^<span class="regexp">/apis/</span>(.*)$ /$<span class="number">1</span> <span class="keyword">break</span>;</span><br><span class="line">    proxy_pass http:<span class="comment">//localhost:8086;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>参考地址<a href="https://segmentfault.com/a/1190000007116797" target="_blank" rel="noopener">yum 和 源码包 安装的 区别</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;nginx-使用为了解决跨域问题&quot;&gt;&lt;a href=&quot;#nginx-使用为了解决跨域问题&quot; class=&quot;headerlink&quot; title=&quot;nginx 使用为了解决跨域问题&quot;&gt;&lt;/a&gt;nginx 使用为了解决跨域问题&lt;/h2&gt;&lt;p&gt;windows开发环境可本地
+      
+    
+    </summary>
+    
+      <category term="工具 跨域" scheme="http://yoursite.com/categories/%E5%B7%A5%E5%85%B7-%E8%B7%A8%E5%9F%9F/"/>
+    
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
+    
+      <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>让人眼前一亮的优秀项目资源</title>
+    <link href="http://yoursite.com/2018/12/29/resource/"/>
+    <id>http://yoursite.com/2018/12/29/resource/</id>
+    <published>2018-12-29T09:27:31.000Z</published>
+    <updated>2019-12-23T09:39:07.927Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="记录日常踩坑过程中发现的优秀项目资源"><a href="#记录日常踩坑过程中发现的优秀项目资源" class="headerlink" title="记录日常踩坑过程中发现的优秀项目资源"></a>记录日常踩坑过程中发现的优秀项目资源</h1><h4 id="书籍推荐-https-github-com-ruanyf-reading-list"><a href="#书籍推荐-https-github-com-ruanyf-reading-list" class="headerlink" title="书籍推荐 https://github.com/ruanyf/reading-list"></a>书籍推荐 <a href="https://github.com/ruanyf/reading-list" target="_blank" rel="noopener">https://github.com/ruanyf/reading-list</a></h4><h4 id="中文技术文档的写作规范-https-github-com-ruanyf-document-style-guide"><a href="#中文技术文档的写作规范-https-github-com-ruanyf-document-style-guide" class="headerlink" title="中文技术文档的写作规范 https://github.com/ruanyf/document-style-guide"></a>中文技术文档的写作规范 <a href="https://github.com/ruanyf/document-style-guide" target="_blank" rel="noopener">https://github.com/ruanyf/document-style-guide</a></h4><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><h4 id="iview-admin-后台集成解决方案"><a href="#iview-admin-后台集成解决方案" class="headerlink" title="iview-admin 后台集成解决方案"></a>iview-admin <a href="https://github.com/iview/iview-admin" target="_blank" rel="noopener">后台集成解决方案</a></h4><h4 id="react-demos-https-github-com-ruanyf-react-demos"><a href="#react-demos-https-github-com-ruanyf-react-demos" class="headerlink" title="react-demos https://github.com/ruanyf/react-demos"></a>react-demos <a href="https://github.com/ruanyf/react-demos" target="_blank" rel="noopener">https://github.com/ruanyf/react-demos</a></h4><h4 id="React-中文入門教學書-https-github-com-kdchang-reactjs101"><a href="#React-中文入門教學書-https-github-com-kdchang-reactjs101" class="headerlink" title="React 中文入門教學書 https://github.com/kdchang/reactjs101"></a>React 中文入門教學書 <a href="https://github.com/kdchang/reactjs101" target="_blank" rel="noopener">https://github.com/kdchang/reactjs101</a></h4><h4 id="最全的资源教程-前端涉及的所有知识体系https-github-com-nicejade-Front-end-tutorial"><a href="#最全的资源教程-前端涉及的所有知识体系https-github-com-nicejade-Front-end-tutorial" class="headerlink" title="最全的资源教程-前端涉及的所有知识体系https://github.com/nicejade/Front-end-tutorial"></a>最全的资源教程-前端涉及的所有知识体系<a href="https://github.com/nicejade/Front-end-tutorial" target="_blank" rel="noopener">https://github.com/nicejade/Front-end-tutorial</a></h4><h4 id="前端面试集锦-https-github-com-paddingme-Front-end-Web-Development-Interview-Question"><a href="#前端面试集锦-https-github-com-paddingme-Front-end-Web-Development-Interview-Question" class="headerlink" title="前端面试集锦 https://github.com/paddingme/Front-end-Web-Development-Interview-Question"></a>前端面试集锦 <a href="https://github.com/paddingme/Front-end-Web-Development-Interview-Question" target="_blank" rel="noopener">https://github.com/paddingme/Front-end-Web-Development-Interview-Question</a></h4><h3 id="VPN"><a href="#VPN" class="headerlink" title="VPN"></a>VPN</h3><h4 id="科学上网-https-sphard2-github-io-gfw"><a href="#科学上网-https-sphard2-github-io-gfw" class="headerlink" title="科学上网 https://sphard2.github.io/gfw/"></a>科学上网 <a href="https://sphard2.github.io/gfw/" target="_blank" rel="noopener">https://sphard2.github.io/gfw/</a></h4><h3 id="收藏夹"><a href="#收藏夹" class="headerlink" title="收藏夹"></a>收藏夹</h3><h4 id="键盘导航站-http-navi-chenqiwei-com"><a href="#键盘导航站-http-navi-chenqiwei-com" class="headerlink" title="键盘导航站 http://navi.chenqiwei.com/"></a>键盘导航站 <a href="http://navi.chenqiwei.com/" target="_blank" rel="noopener">http://navi.chenqiwei.com/</a></h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;记录日常踩坑过程中发现的优秀项目资源&quot;&gt;&lt;a href=&quot;#记录日常踩坑过程中发现的优秀项目资源&quot; class=&quot;headerlink&quot; title=&quot;记录日常踩坑过程中发现的优秀项目资源&quot;&gt;&lt;/a&gt;记录日常踩坑过程中发现的优秀项目资源&lt;/h1&gt;&lt;h4 id=&quot;书
+      
+    
+    </summary>
+    
+      <category term="资源" scheme="http://yoursite.com/categories/%E8%B5%84%E6%BA%90/"/>
+    
+    
+      <category term="github" scheme="http://yoursite.com/tags/github/"/>
+    
+  </entry>
+  
+</feed>
